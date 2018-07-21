@@ -24,6 +24,7 @@ public class RegionUtil {
         for (int i = 0; i < groups.length; i++) {
             //henan zhengzhou gongyi
             String[] strings = groups[i].split(" ");
+           /* System.out.println(strings);*/
             String province=strings[0];
             String city=strings[1];
             String country=strings[2];
@@ -65,6 +66,7 @@ public class RegionUtil {
             System.out.println(city);
         }
     }
+
 
 
     public static void getCountries(String province) {

@@ -12,9 +12,14 @@ import java.util.*;
 public class HomeWork {
     public static void main(String[] args) {
         //q1();
-        q2();
-       // q31();
-       // q32();
+        //q2();
+        q31();
+        //q32();
+      /* int[] c1 = {1,6,3,5,9,4};
+       Arrays.sort(c1);
+        for (int i = 0; i < c1.length; i++) {
+            System.out.println(c1[i]);
+        }*/
 
     }
 

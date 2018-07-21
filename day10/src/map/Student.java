@@ -1,4 +1,4 @@
-package hashmap;
+package map;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
  @Date:2018/7/20 10:54 
  @Version:v1.0
 */
-public class Student {
+public class Student implements Comparable{
     private String name;
     private int age;
 
@@ -48,5 +48,28 @@ public class Student {
     public int hashCode() {
 
         return Objects.hash(getName(), getAge());
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o==null||!o.getClass().equals(getClass())){
+            throw new RuntimeException("can not compare");
+        }
+        Student s2= (Student) o;
+        if (getAge() > s2.getAge()) {
+            return -1;
+        } else if (getAge() == s2.getAge()) {
+            return -(getName().compareTo(s2.getName()));
+        }
+        return 1;
+
     }
 }
