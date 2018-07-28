@@ -7,122 +7,114 @@ import java.io.*;
  @Description:TODO
  @Author:
  @Date:2018/7/25 15:32
-
- @Version:v1.0
+ @Version:v1.1
  */
 
 public class CodeUtil {
     public static void main(String[] args) {
-        //removeNote("D:\\project\\HelloWorld\\IOday03\\src\\homework\\CodeUtil.java");
-   // removeNote("D:\\project\\HelloWorld\\IOday03\\src\\homework\\HomeWork.java");
-    removeCode("D:\\project\\HelloWorld\\IOday03\\src\\homework\\HomeWork.java");
+        //removeCode("D:\\project\\HelloWorld\\IOday03\\src\\homework\\WriterTest.java");
     }
+
     //删除代码保留注释
     private static void removeCode(String javaFilePath) {
         try {
+            File javaFile = new File(javaFilePath);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(javaFilePath));
-            String newJavaFileName=javaFilePath.substring(0,javaFilePath.indexOf('.'))+"RC.java";
-            System.out.println(newJavaFileName);
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(newJavaFileName));
-            String line=null;
-            boolean flag=false;
-            boolean updateClassName=false;
-            while ((line=bufferedReader.readLine())!=null){
-                if (line.endsWith("*/")){
-                    flag=false;
-                    bufferedWriter.write(line);
-                    bufferedWriter.newLine();
+            String newJavaFileName = javaFilePath.substring(0, javaFilePath.indexOf('.')) + "RC.java";
+            PrintWriter writer = new PrintWriter(new FileWriter(newJavaFileName));
+            String line = null;
+            boolean flag = false;
+            boolean updateClassName = false;
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.endsWith("*/")) {
+                    flag = false;
+                    writer.println(line);
                     continue;
                 }
-                if (flag){
-                    bufferedWriter.write(line);
-                    bufferedWriter.newLine();
+                if (flag) {
+                    writer.println(line);
                     continue;
-                }else if (line.startsWith("/*")){
-                    flag=true;
-                    bufferedWriter.write(line);
-                    bufferedWriter.newLine();
+                } else if (line.contains("/*") && !line.contains("\"/*\"")) {
+                    flag = true;
+                    writer.println(line);
                     continue;
                 }
-                if (line.contains("package")){
-                    bufferedWriter.write(line);
-                    bufferedWriter.newLine();
+                if (line.contains("package")) {
+                    writer.println(line);
                     continue;
                 }
-                if (line.contains("class")&&updateClassName==false){
-                    String className=line.substring(line.lastIndexOf('s')+1,line.indexOf('{')).trim();
-                    String newLine = line.substring(0, line.lastIndexOf('s') + 1) + " " + className + "RC{";
-                    bufferedWriter.write(newLine);
-                    bufferedWriter.newLine();
-                    updateClassName=true;
+                if (line.contains("class") && updateClassName == false) {
+                    String oldClassName = javaFile.getName().split("\\.")[0];
+                    String newLine = line.replace(oldClassName, oldClassName + "RC");
+                    writer.println(newLine);
+                    updateClassName = true;
                     continue;
                 }
-                if (line.contains("//")&&!line.contains("\"//\"")){
-                    bufferedWriter.write(line.substring(line.indexOf('/')));
-                    bufferedWriter.newLine();
+                if (line.contains("//") && !line.contains("\"//\"")) {
+                    writer.println(line.substring(line.indexOf('/')));
+
                     continue;
                 }
 
             }
-            bufferedWriter.write("}");
-            bufferedWriter.newLine();
+            writer.println("}");
             bufferedReader.close();
-            bufferedWriter.close();
+            writer.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
-
 
         }
     }
+
     //删除注释保留代码
     private static void removeNote(String javaFilePath) {
         try {
+            File javaFile = new File(javaFilePath);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(javaFilePath));
-            String newJavaFileName=javaFilePath.substring(0,javaFilePath.indexOf('.'))+"RN.java";
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(newJavaFileName));
-            String line=null;
-            boolean flag=false;
-            boolean updateClassName=false;
-            while ((line=bufferedReader.readLine())!=null){
-                if (line.startsWith("/*")){
-                    flag=true;
+            String newJavaFileName = javaFilePath.substring(0, javaFilePath.indexOf('.')) + "RN.java";
+            PrintWriter writer = new PrintWriter(new FileWriter(newJavaFileName));
+            String line = null;
+            boolean flag = false;
+            boolean updateClassName = false;
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.startsWith("/*")) {
+                    flag = true;
                     continue;
                 }
-                if (line.endsWith("*/")){
-                    flag=false;
+                if (line.endsWith("*/")) {
+                    flag = false;
                     continue;
                 }
-                if (flag==true){
+                if (flag == true) {
                     continue;
                 }
 
-                if (line.contains("//")&&!line.contains("\"//\"")){
-                    bufferedWriter.write(line.substring(0,line.indexOf('/')));
-                    bufferedWriter.newLine();
-                    continue;
-                }
-                if (line.contains("class")&&updateClassName==false){
-                    String className=line.substring(line.lastIndexOf('s')+1,line.indexOf('{')).trim();
-                    String newLine = line.substring(0, line.lastIndexOf('s') + 1) + " " + className + "RN{";
-                    bufferedWriter.write(newLine);
-                    bufferedWriter.newLine();
-                    updateClassName=true;
-                    continue;
-                }
-                bufferedWriter.write(line);
-                bufferedWriter.newLine();
+                if (line.contains("//") && !line.contains("\"//\"")) {
+                    writer.println(line.substring(0, line.indexOf('/')));
 
+                    continue;
+                }
+                if (line.contains("class") && updateClassName == false) {
+
+                    String oldClassName = javaFile.getName().split("\\.")[0];
+                    String newLine = line.replace(oldClassName, oldClassName + "RN");
+                    writer.println(newLine);
+                    updateClassName = true;
+                    continue;
+                }
+                writer.println(line);
             }
             bufferedReader.close();
-            bufferedWriter.close();
+            writer.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
 
 
+            e.printStackTrace();
         }
     }
 }
