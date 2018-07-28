@@ -25,7 +25,7 @@ public class SaveThread implements Runnable {
         PrintWriter writer = null;
         try {
             //通过Thread.currentThread()来获取当前活动的线程
-            System.out.println(Thread.currentThread().getName()+" path"+path+" content"+content);;
+            System.out.println(Thread.currentThread().getName()+" path"+path+" content"+content);
             writer = new PrintWriter(path);
             writer.println(content);
             writer.close();

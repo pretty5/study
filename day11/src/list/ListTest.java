@@ -1,6 +1,6 @@
 package list;
 
-import homework.Student;
+import teahomework.Student;
 
 import java.util.ArrayList;
 

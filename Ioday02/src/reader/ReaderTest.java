@@ -22,7 +22,7 @@ public class ReaderTest {
     //通过定义缓冲区   减少读写磁盘的次数  减少系统调用的次数  节省时间 提高效率
     //以空间换时间
     private static void testBufferedReader() throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("d:\\test\\res.txt"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("d:\\text\\res.txt"));
         String line =null;
         while ((line=bufferedReader.readLine())!=null){
             System.out.println(line);

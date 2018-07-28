@@ -100,7 +100,6 @@ public class HomeWork {
         reader.close();
         return stringBuilder.toString();
     }
-
     private static String getLargeFileName() {
         //获取当日日期
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM--dd");
