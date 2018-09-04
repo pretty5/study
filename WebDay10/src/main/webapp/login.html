@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/jquery-3.3.1.min.js"></script>
+
+
+
+<script>
+    function doLogin() {
+        //check
+        var username=$("#username").val()
+        var password=$("#password").val()
+        if (username.length==0||password.length<6){
+            alert("username or password too short")
+            return
+        }
+        //check success
+        //send request
+        $.ajax({
+            type:"post",
+            url:"/login.do",
+            data:{
+                username:username,
+                password:password
+            },
+            dataType:"json",
+            success:function (resp) {
+                console.log(resp)
+                //跳转到首页
+                window.location.href="/index.jsp"
+            },
+            error:function (resp) {
+                console.log(resp.responseText)
+                //alert(resp.responseText)
+                document.write(resp.responseText)
+            }
+        })
+    }
+    function getTime() {
+        setInterval(function () {
+            $.ajax({
+                url:"/time.do",
+                //dataType:"json",
+                success:function (resp) {
+                    console.log(resp)
+                    $("#time").text(resp)
+                }
+            })
+        },3000)
+    }
+
+</script>
+<body>
+time:<input type="submit" value="time" onclick="getTime()"><br>
+<div id="time">
+
+</div>
+
+
+username:<input type="text" id="username" name="username"><br>
+password:<input type="password" id="password" name="password"><br>
+login:<input type="submit" value="login" onclick="doLogin()"><br>
+
+</body>
+</html>

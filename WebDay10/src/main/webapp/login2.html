@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script>
+function login() {
+    var username=$("#username").val()
+    var password=$("#password").val()
+    if (username.length==0 || password.length<6){
+        alert("检查账户或密码是否输入正确")
+        return
+    }
+    $.ajax({
+        type:"post",
+        url:"/login.do",
+        data:{
+            username:username,
+            password:password
+        },
+        dataType:"json",
+        success:function (resp) {
+           console.log(resp);
+           window.location.href="index.jsp"
+        },
+        error:function (resp) {
+            console.log("登录失败");
+            document.write(resp)
+        }
+    })
+
+}
+</script>
+<body>
+username<input type="text" id="username"><br>
+password<input type="password" id="password"><br>
+<input type="submit" value="登录" onclick="login()">
+
+</body>
+</html>
